@@ -6,7 +6,7 @@ Measure detection thresholds for click trains and band-limited noise in MATLAB. 
 
 ## Set up and run a silent test
 
-Use MATLAB R2026a with Signal Processing Toolbox. Audio Toolbox is required for live playback. Open this folder as the MATLAB Current Folder, then run:
+See [Requirements](REQUIREMENTS.md) for the MATLAB version, toolboxes and audio setup. Open this folder as the MATLAB Current Folder, then run:
 
 ```matlab
 addpath('src', 'tests');
@@ -46,7 +46,7 @@ If you use this software in research, please cite the software, authored by Shut
 
 ### 準備と無音テスト
 
-MATLAB R2026aとSignal Processing Toolboxを使用します。実機で音を出す場合はAudio Toolboxも必要です。このフォルダーをMATLABの現在のフォルダーに設定し、次を実行します。
+MATLABのバージョン、Toolbox、音響機器は[動作要件](REQUIREMENTS.md#日本語)を確認してください。このフォルダーをMATLABの現在のフォルダーに設定し、次を実行します。
 
 ```matlab
 addpath('src', 'tests');
