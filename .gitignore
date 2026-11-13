@@ -1,0 +1,9 @@
+/results/
+/data/
+*.mat
+*.asv
+*.m~
+*.mex*
+*.log
+.DS_Store
+Thumbs.db
