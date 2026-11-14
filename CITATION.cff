@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software in research, please cite it as below and state the version or Git commit you used."
+type: software
+license: MIT
+title: "Japanese_3AFC"
+authors:
+  - family-names: Hayashi
+    given-names: Shuto
+repository-code: "https://github.com/shutohayashi/Japanese_3AFC"

@@ -4,7 +4,7 @@ classdef audioDeviceWriter < handle
         SampleRate = 96000
         BitDepth = '24-bit integer'
         Driver = 'ASIO'
-        Device = 'RME test writer'
+        Device = 'Test writer'
         SupportVariableSizeInput = false
         BufferSize = 4096
     end
@@ -15,7 +15,7 @@ classdef audioDeviceWriter < handle
             end
         end
         function devices = getAudioDevices(~)
-            devices = {'RME test writer'};
+            devices = {'Test writer'};
         end
         function release(~)
             audioDeviceWriter.control('release');

@@ -1,5 +1,7 @@
 function dev = resolve_audio_device(io_obj, dev_id)
-%RESOLVE_AUDIO_DEVICE Select an explicit output or a uniquely identified RME device.
+%RESOLVE_AUDIO_DEVICE Select an explicit output, or the only output the driver lists.
+% With several outputs, require dev_id so a measurement never falls back to an
+% unintended device such as the built-in speaker.
 
     if isa(io_obj,'audiostreamer')
         devs = audiostreamer.getPlayerNames(io_obj.Driver);
@@ -8,11 +10,11 @@ function dev = resolve_audio_device(io_obj, dev_id)
     end
     if ~iscell(devs), devs = cellstr(devs); end  % string配列で返る版にも対応
 
-    % --- 旧 PsychPortAudio 流の数値ID誤用を弾く ---
+    % --- 数値IDの指定を弾く（名前で指定する） ---
     if isnumeric(dev_id) && ~isempty(dev_id)
         error('resolve_audio_device:devid', ...
-            ['dev_id は数値IDではなくデバイス名の文字列です。' ...
-             'getAudioDevices(...) で名前を確認してください。']);
+            ['dev_id は数値IDではなく出力機器名の文字列です。' ...
+             '利用可能: %s'], join_devices(devs));
     end
 
     % --- dev_id 明示指定: 存在チェックのうえ採用 ---
@@ -26,20 +28,17 @@ function dev = resolve_audio_device(io_obj, dev_id)
         return;
     end
 
-    % --- 自動検出: Babyface/Fireface/RME を名前マッチ ---
-    key   = {'babyface','fireface','rme'};
-    hit   = contains(lower(devs), key);          % いずれかのキーを含む要素が true
-    match = devs(hit);
-    if isempty(match)
-        error('resolve_audio_device:norme', ...
-            ['Babyface/RME デバイスが見つかりません。接続と Audio MIDI設定/TotalMix を確認し、' ...
-             'dev_id に名前を明示してください。利用可能: %s'], join_devices(devs));
-    elseif numel(match) > 1
+    % --- 自動選択: 出力機器が1台だけのときに限る ---
+    if isempty(devs)
+        error('resolve_audio_device:nodevice', ...
+            ['出力機器が見つかりません。接続と driver の指定を確認してください' ...
+             '（Windows の既定は ASIO。ASIO 非対応の機器では driver に WASAPI を指定）。']);
+    elseif numel(devs) > 1
         error('resolve_audio_device:ambiguous', ...
-            'Babyface/RME 候補が複数あります。dev_id で明示してください: %s', join_devices(match));
+            '出力機器が複数あります。dev_id に名前を指定してください: %s', join_devices(devs));
     end
-    dev = match{1};
-    fprintf('resolve_audio_device: 出力デバイス自動選択 = "%s"\n', dev);
+    dev = devs{1};
+    fprintf('resolve_audio_device: 出力機器を自動選択 = "%s"\n', dev);
 end
 
 %% ---- ローカル関数: デバイス名一覧を読みやすい文字列にする ----

@@ -445,8 +445,8 @@ for i = 1:size(early,1)
          '始まる前に検出しなければ、測定時間ごと失われます。'], i, cnt13('n'));
 end
 
-% dry_run は保存しないので、被験者情報を要求してはいけない。COMMANDS.md が案内している
-% 組立確認コマンドは subject/ear を渡さないので、ここで要求すると文書通りの操作が落ちる。
+% dry_run は保存しないので、被験者情報を要求してはいけない。音を出さない組立確認の
+% 呼び出しは subject/ear を渡さないので、ここで要求すると確認の操作が落ちる。
 Tdry = phase3_afc_threshold('dry_run', true, 'max_level_dbfs', -40, 'verbose', false);
 assert(isstruct(Tdry) && isfield(Tdry,'dry_run') && Tdry.dry_run, ...
     '13) dry_run が被験者情報なしで通りませんでした。');

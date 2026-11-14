@@ -73,6 +73,14 @@ try
 catch ME
     assert(strcmp(ME.identifier,'resolve_audio_device:notfound'),'Unexpected %s',ME.identifier);
 end
+% Several outputs without dev_id must stop instead of guessing one.
+try
+    phase3_afc_threshold('stimulus','click','max_level_dbfs',-2, ...
+        'save',false,'verbose',false);
+    error('phase3_test:expected','Expected ambiguous-device error.');
+catch ME
+    assert(strcmp(ME.identifier,'resolve_audio_device:ambiguous'),'Unexpected %s',ME.identifier);
+end
 fprintf('phase3_afc_hardware_selftest: PASS\n');
 end
 function T=run_case(kind,mode,production)
@@ -87,7 +95,7 @@ maxlevel=-2; if strcmp(kind,'noise'), maxlevel=-20; end
 T=phase3_afc_threshold('stimulus',kind,'max_level_dbfs',maxlevel,'save',false, ...
     'verbose',false,'seed',33,'n_practice',1,'n_runs',1,'n_runs_max',1, ...
     'n_reversals',4,'n_reversals_avg',2,'step_change_at_rev',2, ...
-    'feedback_ms',0,'on_interrupt','record');
+    'feedback_ms',0,'on_interrupt','record','dev_id','Test interface');
 phase3_stream_test_control('hook',[]);
 if ismember(mode,{'normal','retry','retry_cue'}), assert(all(ismember(1:3,seen))); end
     function respond(event)

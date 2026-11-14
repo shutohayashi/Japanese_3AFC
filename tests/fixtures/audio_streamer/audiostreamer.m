@@ -4,7 +4,7 @@ classdef audiostreamer < handle
         Mode='player'
         SampleRate=96000
         Driver='ASIO'
-        Player='RME test streamer'
+        Player='Test interface'
         DeviceBitFormat='int24'
         DeviceBufferSize=2048
         PlayerChannels=[1 2]
@@ -59,7 +59,7 @@ classdef audiostreamer < handle
     end
     methods (Static)
         function names=getPlayerNames(~)
-            names={'RME test streamer','Realtek test'};
+            names={'Test interface','Realtek test'};
         end
     end
 end

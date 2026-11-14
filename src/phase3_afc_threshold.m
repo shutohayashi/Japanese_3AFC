@@ -18,7 +18,7 @@ p.addParameter('test', false);
 p.addParameter('save', true);             % false で成功結果を保存しない
 p.addParameter('abort_outdir', '');   % Optional directory for incomplete results.
 % --- 安全 ---
-p.addParameter('max_level_dbfs', []);     % 必須。既定値なし (ヘッダの理由による)
+p.addParameter('max_level_dbfs', []);     % 必須。既定値なし (理由は check_limits のエラー文)
 p.addParameter('min_level_dbfs', K.min_level_dbfs);
 p.addParameter('on_range_limit', 'error'); % 'record': return diagnostic, never a threshold
 p.addParameter('on_interrupt', 'error'); % 'record': known cancellation/audio failures only
@@ -37,7 +37,7 @@ p.addParameter('ascend_step_db',    K.ascend_step_db);
 p.addParameter('start_headroom_db', K.start_headroom_db);
 p.addParameter('max_trials',        200); % 暴走ガード (run_staircase の理由参照)
 % --- 刺激 ---
-p.addParameter('stimulus', 'noise');      % 'noise' | 'click' (ヘッダ参照)
+p.addParameter('stimulus', 'noise');      % 'noise' | 'click'
 p.addParameter('fs',       K.fs_hz);
 p.addParameter('band',     K.noise_band_hz);   % noise のみ
 p.addParameter('burst_ms', K.burst_ms);        % noise のみ (click は列長が区間長を決める)
@@ -51,7 +51,7 @@ p.addParameter('sim_observer', []);
 p.addParameter('verbose', true);      % false で進行表示を止める (selftest が多数回駆動するため)
 % --- オーディオ ---
 p.addParameter('driver', 'ASIO');         % Windows専用 ('ASIO'|'DirectSound'|'WASAPI')
-p.addParameter('dev_id', '');             % ''=Babyface/RME 自動検出
+p.addParameter('dev_id', '');             % ''=出力機器が1台だけなら自動選択
 p.addParameter('nbuf', K.audio_frame_samples);
 p.addParameter('warmup_frames', K.audio_prime_frames); % 無音中の連続した欠落ゼロ確認数
 p.addParameter('feedback_ms', 700);       % 正誤フィードバックを表示したまま止める時間 [ms]。
@@ -103,7 +103,7 @@ else
 end
 
 vb = o.verbose;
-vprintf(vb, '=== Phase3 3AFC 閾値測定 (%s) ===\n', stim.kind);
+vprintf(vb, '=== 3AFC 閾値測定 (%s) ===\n', stim.kind);
 vprintf(vb, ' %s / 区間 %.0f ms / 区間間 %g ms / fs %g Hz\n', ...
         stim.describe, stim.nburst/fs*1e3, o.isi_ms, fs);
 vprintf(vb, ' 上限 %.1f dB FS  規則 %s  反転%d(末尾%d平均)\n', ...
@@ -690,7 +690,7 @@ end
 function on_key(fig, ev)
 % 受け付けるキーを phase で絞る。手動上昇法の最中に 1/2/3 を押されたときそれを「いいえ」と
 % 解釈すると、出力が ascend_step_db だけ上がる ── 上限までの間、押し間違いが音量を上げる
-% 方向にしか効かない。上昇法はヘッダが「大音量呈示に対する構造的防御」と呼んでいる局面な
+% 方向にしか効かない。上昇法は大音量呈示を構造的に防ぐための局面な
 % ので、上昇法では y/n と中断(x/Esc)だけを受け付ける。本試行では y/n を無視する。
 key = lower(ev.Key);
 if strcmp(key,'escape')||strcmp(key,'x')
