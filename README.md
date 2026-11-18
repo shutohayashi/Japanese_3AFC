@@ -39,7 +39,7 @@ T = phase3_afc_threshold('stimulus', 'click', ...
 
 本ソフトウェアを研究に使用した場合は、論文、学位論文、学会発表などで引用してください。GitHubの「Cite this repository」から引用情報を取得できます。使用したバージョンまたはGitコミットを明記してください。
 
-> 林秀斗（公開年）。Japanese_3AFC（使用したバージョン）［ソフトウェア］。https://github.com/shutohayashi/Japanese_3AFC
+> 林秀斗（2026）。Japanese_3AFC（使用したバージョン）［ソフトウェア］。https://github.com/shutohayashi/Japanese_3AFC
 
 適応法は Levitt, H. (1971). Transformed up-down methods in psychoacoustics. *J. Acoust. Soc. Am.*, 49, 467–477. に基づきます。
 
@@ -84,6 +84,6 @@ For a completed measurement, `T.threshold_dbfs` gives the threshold and `T.outfi
 
 If you use this software in research, please cite it in your paper, thesis or presentation. Use **Cite this repository** on GitHub for citation metadata, and state the version or Git commit you used.
 
-> Hayashi, S. (Release year). *Japanese_3AFC* (version used) [Computer software]. https://github.com/shutohayashi/Japanese_3AFC
+> Hayashi, S. (2026). *Japanese_3AFC* (version used) [Computer software]. https://github.com/shutohayashi/Japanese_3AFC
 
 The adaptive procedure follows Levitt, H. (1971). Transformed up-down methods in psychoacoustics. *J. Acoust. Soc. Am.*, 49, 467–477.
